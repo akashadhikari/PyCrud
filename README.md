@@ -12,7 +12,7 @@ A simple Python CRUD application (With not much fancy libraries and pre-built pa
 *In comes Postgres*
 
 * Postgres-Python connectivity with big data.
-*CRUD- Command line
+* CRUD- Command line
 * Sorting and Searching
 * Packaging
 
