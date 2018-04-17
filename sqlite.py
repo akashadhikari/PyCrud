@@ -1,5 +1,5 @@
 import sqlite3
-from script import Employee
+from models import Employee
 
 conn = sqlite3.connect(':memory:')  # :memory: or db name
 
