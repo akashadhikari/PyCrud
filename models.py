@@ -29,4 +29,4 @@ class Aayulogic:
         self.image_url = image_url
 
     def __repr__(self):
-        return "Employees('{}', '{}', {})".format(self.first_name, self.last_name, self.email)
+        return "Aayulogic('{}', '{}', {})".format(self.first_name, self.last_name, self.email)

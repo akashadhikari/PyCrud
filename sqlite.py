@@ -1,3 +1,10 @@
+"""
+The following code is for generates and stores data in a temporary memory'
+We have generated a database model with relevant fields.
+Below, we have defined custom CRUD functions to show all the data stored in the table, Read, Update and Delete them.
+
+"""
+
 import sqlite3
 from models import Aayulogic
 
@@ -15,15 +22,17 @@ image_url => Display Image URL
 
 """
 
-conn = sqlite3.connect(':memory:')  # :memory: or db name eg: employee.db
+conn = sqlite3.connect(':memory:')  # :memory: or db name eg: employee.db or faker generated eg: sqlite_YOAGQHYR.db
 
 c = conn.cursor()  # cursor object to fetch results
 
 # We know what we are doing here, right? :D
+# May be its better to name text=>bio, date=>birth_date, boolean=>gender with address broken up into lat and long
+
 c.execute("""CREATE TABLE employees (
              first_name text(100),
              last_name text(100),
-             email decimal,
+             email decimal unique,
              phone_number varchar(30),
              text text(255),
              date varchar(20),
@@ -35,6 +44,12 @@ c.execute("""CREATE TABLE employees (
 
 
 # Some custom CRUD functions using native SQLite commands
+# Return/Read all the records in the table
+def show_all():
+    c.execute("SELECT * FROM employees")
+    return c.fetchall()
+
+
 def insert_emp(emp):
     with conn:
         c.execute("INSERT INTO employees VALUES (:first_name, :last_name, :email, :phone_number, :text, :date, "
