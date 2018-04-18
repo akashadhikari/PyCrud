@@ -1,6 +1,6 @@
 ## PyCrud
 
-A simple Python CRUD application (With not much fancy libraries and pre-built packages).
+A simple Python CRUD application with not much fancy libraries and pre-built packages (Well, expect for some cases :p ).
 
 ## Actions
 
@@ -9,7 +9,7 @@ A simple Python CRUD application (With not much fancy libraries and pre-built pa
 * Database- Python CRUD.
 * Sorting and Searching.
 
-*In comes Postgres*
+*In comes POSTGRES*
 
 * Postgres-Python connectivity with big data.
 * CRUD- Command line

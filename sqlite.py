@@ -1,69 +1,84 @@
 import sqlite3
 from models import Aayulogic
 
+"""
+first_name => First name of the employee
+last_name => Last name of the employee
+email => Employee's email
+phone_number => Employee's phone number
+text => Employee's text bio
+date => Employee's date of birth
+boolean => Employee's sex - M/F
+address => Employee's Address
+url => URL to a social account
+image_url => Display Image URL
 
-conn = sqlite3.connect(':memory:')  # :memory: or db name
+"""
+
+conn = sqlite3.connect(':memory:')  # :memory: or db name eg: employee.db
 
 c = conn.cursor()  # cursor object to fetch results
 
 # We know what we are doing here, right? :D
 c.execute("""CREATE TABLE employees (
-             first text,
-             last text,
-             salary decimal,
-             phone varchar(30),
-             bio text,
-             birth_date varchar,
-             gender text,
-             longitude decimal,
-             latitude decimal,
-             social_media varchar
+             first_name text(100),
+             last_name text(100),
+             email decimal,
+             phone_number varchar(30),
+             text text(255),
+             date varchar(20),
+             boolean text(10),
+             address decimal,
+             url varchar,
+             image_url blob
              )""")
 
 
 # Some custom CRUD functions using native SQLite commands
 def insert_emp(emp):
     with conn:
-        c.execute("INSERT INTO employees VALUES (:first, :last, :salary, :phone, :bio, :birth_date, :gender, :longitude,"
-                  " :latitude, :social_media) ",
-              {'first': emp.first,
-               'last': emp.last,
-               'salary': emp.salary,
-               'phone': emp.phone,
-               'bio': emp.bio,
-               'birth_date': emp.birth_date,
-               'gender': emp.gender,
-               'longitude': emp.longitude,
-               'latitude': emp.latitude,
-               'social_media': emp.social_media
+        c.execute("INSERT INTO employees VALUES (:first_name, :last_name, :email, :phone_number, :text, :date, "
+                  ":boolean, :address, :url,:image_url) ",
+              {'first_name': emp.first_name,
+               'last_name': emp.last_name,
+               'email': emp.email,
+               'phone_number': emp.phone_number,
+               'text': emp.text,
+               'date': emp.date,
+               'boolean': emp.boolean,
+               'address': emp.address,
+               'url': emp.url,
+               'image_url': emp.image_url
                })
 
 
-def get_emps_by_name(lastname):
-    c.execute("SELECT * FROM employees WHERE last=:last", {'last': lastname})
+def get_emps_by_name(last_name):
+    c.execute("SELECT * FROM employees WHERE last_name=:last_name", {'last_name': last_name})
     return c.fetchall()
 
 
-def update_salary(emp, salary):
+def update_email(emp, email):
     with conn:
-        c.execute("""UPDATE employees SET salary=:salary
-                  WHERE first=:first AND last=:last""",
-                  {'first': emp.first, 'last': emp.last, 'salary': salary})
+        c.execute("""UPDATE employees SET email=:email
+                  WHERE first_name=:first_name AND last_name=:last_name""",
+                  {'first_name': emp.first_name, 'last_name': emp.last_name, 'email': email})
 
 
 def remove_emp(emp):
     with conn:
-        c.execute("DELETE from employees WHERE first=:first AND last=:last",
-                  {'first': emp.first, 'last': emp.last})
+        c.execute("DELETE from employees WHERE first_name=:first_name AND last_name=:last_name",
+                  {'first_name': emp.first_name, 'last_name': emp.last_name})
+
 
 """
-:first, :last, :salary, :phone, :bio, :birth_date, :gender, :longitude,"
-                  " :latitude, :social_media
+:first_name, :last_name, :email, :phone_number, :text, :date, :boolean, :address, :url, :image_url
 """
 
 # Testing it on arbitrary data
-emp1 = Aayulogic('John', 'Doe', 80000.002, '984585485', 'Hello All!', '1996/2/3', 'Male', 27.29, 32.53, 'fb.com/emp1')
-emp2 = Aayulogic('Ram', 'Doe', 111111.25, '999999999', 'Heyyy', '1990/1/1', 'Male', 27.2099, 32.5875453, 'fb.com/emp2')
+emp1 = Aayulogic('John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
+                 'www.fb.com/emp1', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
+emp2 = Aayulogic('Ram', 'Doe', 'fake@news.com', '999999999', 'I hate humans.', '1996/12/3', 0, 'Wherenot',
+                 'www.fb.com/emp2', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
 
 
 insert_emp(emp1)

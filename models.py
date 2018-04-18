@@ -2,26 +2,31 @@ class Aayulogic:
 
     # We pass in some information of Aayulogic Employee
 
-    def __init__(self, first, last, salary, phone, bio, birth_date, gender, longitude, latitude, social_media):  # Image
-        self.first = first
-        self.last = last
-        self.salary = salary
-        self.phone = phone
-        self.bio = bio
-        self.birth_date = birth_date
-        self.gender = gender
-        self.longitude = longitude
-        self.latitude = latitude
-        self.social_media = social_media
-        # Add image
+    """
+    first_name => First name of the employee
+    last_name => Last name of the employee
+    email => Employee's email
+    phone_number => Employee's phone number
+    text => Employee's text bio
+    date => Employee's date of birth
+    boolean => Employee's sex - M/F
+    address => Employee's Address
+    url => URL to a social account
+    image_url => Display Image URL
 
-    @property
-    def email(self):
-        return "{}.{}@aayulogic.com".format(self.first, self.last)
+    """
 
-    @property
-    def fullname(self):
-        return "{} {}".format(self.first, self.last)
+    def __init__(self, first_name, last_name, email, phone_number, text, date, boolean, address, url, image_url):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.phone_number = phone_number
+        self.text = text
+        self.date = date
+        self.boolean = boolean
+        self.address = address
+        self.url = url
+        self.image_url = image_url
 
     def __repr__(self):
-        return "Employees('{}', '{}', {})".format(self.first, self.last, self.salary)
+        return "Employees('{}', '{}', {})".format(self.first_name, self.last_name, self.email)
