@@ -27,7 +27,6 @@ conn = sqlite3.connect(':memory:')  # NOTE: sqlite_YOAGQHYR.db contains fake dat
 c = conn.cursor()  # cursor object to fetch results
 
 # We know what we are doing here, right? :D
-# May be its better to name text=>bio, date=>birth_date, boolean=>gender with address broken up into lat and long
 
 c.execute("""CREATE TABLE employees (
              first_name text(100), 
@@ -37,7 +36,7 @@ c.execute("""CREATE TABLE employees (
              text text(255),
              date varchar(20),
              boolean text(10),
-             address decimal,
+             address text,
              url varchar,
              image_url blob
              )""")
@@ -76,6 +75,8 @@ def update_fields(emp, email, text):
                   WHERE first_name=:first_name AND last_name=:last_name""",
                   {'first_name': emp.first_name, 'last_name': emp.last_name, 'email': email, 'text': text})
         return c.fetchall()
+
+# @TODO: # I want the user to UPDATE only the required fields.
 
 
 # The 'D' in CRUD
