@@ -20,7 +20,9 @@ image_url => Display Image URL
 
 
 # DbConnect class simply helps to create db connection
+
 class DbConnect:
+
     conn = sqlite3.connect(':memory:')  # NOTE: sqlite_YOAGQHYR.db contains fake data with 200 entries
 
     c = conn.cursor()  # cursor object to fetch results
@@ -46,6 +48,7 @@ class DbConnect:
 # We bind it inside a class named CrudOperation
 
 class CrudOperation:
+
     # The 'C' in CRUD
     def insert_emp(emp):
         with DbConnect.conn:
@@ -88,34 +91,16 @@ class CrudOperation:
                       {'first_name': emp.first_name, 'last_name': emp.last_name})
             return DbConnect.c.fetchall()
 
+    """
 
-"""
+    Some other functions besides CRUD can be defined in such ways:
 
-Some other functions besides CRUD can be defined in such ways:
+    def get_emps_by_name(last_name):
+        c.execute("SELECT * FROM employees WHERE last_name=:last_name", {'last_name': last_name})
+        return c.fetchall()
 
-def get_emps_by_name(last_name):
-    c.execute("SELECT * FROM employees WHERE last_name=:last_name", {'last_name': last_name})
-    return c.fetchall()
-
-print(get_emps_by_name('Doe'))
-"""
-
-# Testing it on arbitrary data
-emp1 = Aayulogic(1,'John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
-                 'www.fb.com/emp1', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
-CrudOperation.insert_emp(emp1)
-emp2 = Aayulogic(2, 'Ram', 'Doe', 'fake@news.com', '999999999', 'I hate humans.', '1996/12/3', 0, 'Wherenot',
-                 'www.fb.com/emp2', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
-CrudOperation.insert_emp(emp2)
-
-"""
-You can do crud operations like
-
-update = update_fields(emp2, 'akash@sky.com', 'I dont really hate humans')
-remove = remove_emp(emp2)
-"""
-
-print(CrudOperation.show_all())
+    print(get_emps_by_name('Doe'))
+    """
 
 
 class Sort:
@@ -143,6 +128,23 @@ class Sort:
     def another_better_search_algorithm(a_list):
         pass
 
+
+# Testing it on arbitrary data
+emp1 = Aayulogic(1,'John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
+                 'www.fb.com/emp1', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
+CrudOperation.insert_emp(emp1)
+emp2 = Aayulogic(2, 'Ram', 'Doe', 'fake@news.com', '999999999', 'I hate humans.', '1996/12/3', 0, 'Wherenot',
+                 'www.fb.com/emp2', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
+CrudOperation.insert_emp(emp2)
+
+"""
+You can do crud operations like
+
+update = CrudOperation.update_fields(emp2, 'akash@sky.com', 'I dont really hate humans')
+remove = CrudOperation.remove_emp(emp2)
+"""
+
+print(CrudOperation.show_all())
 
 a_list = list(CrudOperation.show_all())
 
