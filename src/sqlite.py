@@ -19,7 +19,8 @@ image_url => Display Image URL
 """
 
 
-class Connect:
+# DbConnect class simply helps to create db connection
+class DbConnect:
     conn = sqlite3.connect(':memory:')  # NOTE: sqlite_YOAGQHYR.db contains fake data with 200 entries
 
     c = conn.cursor()  # cursor object to fetch results
@@ -42,12 +43,13 @@ class Connect:
 
 
 # Some custom CRUD functions using native SQLite commands
+# We bind it inside a class named CrudOperation
 
-class CrudFunc:
+class CrudOperation:
     # The 'C' in CRUD
     def insert_emp(emp):
-        with Connect.conn:
-            Connect.c.execute(
+        with DbConnect.conn:
+            DbConnect.c.execute(
                 "INSERT INTO employees VALUES (:id, :first_name, :last_name, :email, :phone_number, :text, :date, "
                 ":boolean, :address, :url,:image_url) ",
                 {'id': emp.id,
@@ -66,13 +68,13 @@ class CrudFunc:
     # The 'R' in CRUD
     @staticmethod
     def show_all():
-        Connect.c.execute("SELECT * FROM employees")
-        return Connect.c.fetchall()
+        DbConnect.c.execute("SELECT * FROM employees")
+        return DbConnect.c.fetchall()
 
     # The 'U' in CRUD - Needs more modification
     def update_fields(emp, email, text):
-        with Connect.conn:
-            Connect.c.execute("""UPDATE employees SET email=:email, text=:text
+        with DbConnect.conn:
+            DbConnect.c.execute("""UPDATE employees SET email=:email, text=:text
                       WHERE first_name=:first_name AND last_name=:last_name""",
                       {'first_name': emp.first_name, 'last_name': emp.last_name, 'email': email, 'text': text})
             return c.fetchall()
@@ -81,15 +83,15 @@ class CrudFunc:
 
     # The 'D' in CRUD
     def remove_emp(emp):
-        with Connect.conn:
-            Connect.c.execute("DELETE from employees WHERE first_name=:first_name AND last_name=:last_name",
+        with DbConnect.conn:
+            DbConnect.c.execute("DELETE from employees WHERE first_name=:first_name AND last_name=:last_name",
                       {'first_name': emp.first_name, 'last_name': emp.last_name})
-            return Connect.c.fetchall()
+            return DbConnect.c.fetchall()
 
 
 """
 
-Some other functions besides CRUD can e defined in such ways:
+Some other functions besides CRUD can be defined in such ways:
 
 def get_emps_by_name(last_name):
     c.execute("SELECT * FROM employees WHERE last_name=:last_name", {'last_name': last_name})
@@ -101,10 +103,10 @@ print(get_emps_by_name('Doe'))
 # Testing it on arbitrary data
 emp1 = Aayulogic(1,'John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
                  'www.fb.com/emp1', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
-CrudFunc.insert_emp(emp1)
+CrudOperation.insert_emp(emp1)
 emp2 = Aayulogic(2, 'Ram', 'Doe', 'fake@news.com', '999999999', 'I hate humans.', '1996/12/3', 0, 'Wherenot',
                  'www.fb.com/emp2', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
-CrudFunc.insert_emp(emp2)
+CrudOperation.insert_emp(emp2)
 
 """
 You can do crud operations like
@@ -113,36 +115,41 @@ update = update_fields(emp2, 'akash@sky.com', 'I dont really hate humans')
 remove = remove_emp(emp2)
 """
 
-print(CrudFunc.show_all())
+print(CrudOperation.show_all())
 
 
 class Sort:
 
-    def insertion_sort(alist):
-        for index in range(1, len(alist)):
+    def insertion_sort(a_list):
+        for index in range(1, len(a_list)):
 
             # We'll first track the current positional value
-            current_value = alist[index]
+            current_value = a_list[index]
 
             # We just checked if the index of current position is greater than 0 AND
             # previous positional value is  greater than current
-            while index > 0 and alist[index - 1] > current_value:
+            while index > 0 and a_list[index - 1] > current_value:
                 # if thats the case, sort them
-                alist[index] = alist[index - 1]
+                a_list[index] = a_list[index - 1]
 
                 # We just deducted the index by 1
                 index = index - 1
 
             # set the changed index value to current
-            alist[index] = current_value
+            a_list[index] = current_value
+
+    # What if I get a better search algorithm? I'll simply bind it over here.
+
+    def another_better_search_algorithm(a_list):
+        pass
 
 
-alist = list(CrudFunc.show_all())
+a_list = list(CrudOperation.show_all())
 
-Sort.insertion_sort(alist)
+Sort.insertion_sort(a_list)
 
 print("***********After Sorting***********")
 
-print(alist)
+print(a_list)
 
-Connect.conn.close()
+DbConnect.conn.close()
