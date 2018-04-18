@@ -1,9 +1,11 @@
-class Employee:
+class Aayulogic:
 
-    def __init__(self, first, last, pay):
+    # We pass in some information of Aayulogic Employee
+
+    def __init__(self, first, last, salary):
         self.first = first
         self.last = last
-        self.pay = pay
+        self.salary = salary
 
     @property
     def email(self):
@@ -14,4 +16,4 @@ class Employee:
         return "{} {}".format(self.first, self.last)
 
     def __repr__(self):
-        return "Employees('{}', '{}', {}, '{}')".format(self.first, self.last, self.pay, self.fullname)
+        return "Employees('{}', '{}', {})".format(self.first, self.last, self.salary)
