@@ -1,12 +1,8 @@
-"""
-The following code is for generates and stores data in a temporary memory'
-We have generated a database model with relevant fields.
-Below, we have defined custom CRUD functions to show all the data stored in the table, Read, Update and Delete them.
-
-"""
-
 import sqlite3
-from .models import Aayulogic
+try:
+    from .models import Aayulogic
+except Exception:
+    from models import Aayulogic
 
 """
 first_name => First name of the employee
@@ -76,7 +72,7 @@ def update_fields(emp, email, text):
                   {'first_name': emp.first_name, 'last_name': emp.last_name, 'email': email, 'text': text})
         return c.fetchall()
 
-# @TODO: # I want the user to UPDATE only the required fields.
+# I want the user to UPDATE only the required fields.
 
 
 # The 'D' in CRUD
