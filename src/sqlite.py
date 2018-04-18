@@ -6,7 +6,7 @@ Below, we have defined custom CRUD functions to show all the data stored in the 
 """
 
 import sqlite3
-from models import Aayulogic
+from .models import Aayulogic
 
 """
 first_name => First name of the employee
