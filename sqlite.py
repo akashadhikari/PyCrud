@@ -22,7 +22,7 @@ image_url => Display Image URL
 
 """
 
-conn = sqlite3.connect(':memory:')  # :memory: or db name eg: employee.db or faker generated eg: sqlite_YOAGQHYR.db
+conn = sqlite3.connect(':memory:')  # NOTE: sqlite_YOAGQHYR.db contains fake data with 200 entries
 
 c = conn.cursor()  # cursor object to fetch results
 
@@ -30,7 +30,7 @@ c = conn.cursor()  # cursor object to fetch results
 # May be its better to name text=>bio, date=>birth_date, boolean=>gender with address broken up into lat and long
 
 c.execute("""CREATE TABLE employees (
-             first_name text(100),
+             first_name text(100), 
              last_name text(100),
              email decimal unique,
              phone_number varchar(30),
@@ -44,12 +44,8 @@ c.execute("""CREATE TABLE employees (
 
 
 # Some custom CRUD functions using native SQLite commands
-# Return/Read all the records in the table
-def show_all():
-    c.execute("SELECT * FROM employees")
-    return c.fetchall()
 
-
+# The 'C' in CRUD
 def insert_emp(emp):
     with conn:
         c.execute("INSERT INTO employees VALUES (:first_name, :last_name, :email, :phone_number, :text, :date, "
@@ -67,40 +63,54 @@ def insert_emp(emp):
                })
 
 
-def get_emps_by_name(last_name):
-    c.execute("SELECT * FROM employees WHERE last_name=:last_name", {'last_name': last_name})
+# The 'R' in CRUD
+def show_all():
+    c.execute("SELECT * FROM employees")
     return c.fetchall()
 
 
-def update_email(emp, email):
+# The 'U' in CRUD - Needs more modification
+def update_fields(emp, email, text):
     with conn:
-        c.execute("""UPDATE employees SET email=:email
+        c.execute("""UPDATE employees SET email=:email, text=:text
                   WHERE first_name=:first_name AND last_name=:last_name""",
-                  {'first_name': emp.first_name, 'last_name': emp.last_name, 'email': email})
+                  {'first_name': emp.first_name, 'last_name': emp.last_name, 'email': email, 'text': text})
+        return c.fetchall()
 
 
+# The 'D' in CRUD
 def remove_emp(emp):
     with conn:
         c.execute("DELETE from employees WHERE first_name=:first_name AND last_name=:last_name",
                   {'first_name': emp.first_name, 'last_name': emp.last_name})
-
+        return c.fetchall()
 
 """
-:first_name, :last_name, :email, :phone_number, :text, :date, :boolean, :address, :url, :image_url
+
+Some other functions besides CRUD can e defined in such ways:
+
+def get_emps_by_name(last_name):
+    c.execute("SELECT * FROM employees WHERE last_name=:last_name", {'last_name': last_name})
+    return c.fetchall()
+
+print(get_emps_by_name('Doe'))
 """
 
 # Testing it on arbitrary data
 emp1 = Aayulogic('John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
                  'www.fb.com/emp1', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
+insert_emp(emp1)
 emp2 = Aayulogic('Ram', 'Doe', 'fake@news.com', '999999999', 'I hate humans.', '1996/12/3', 0, 'Wherenot',
                  'www.fb.com/emp2', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
-
-
-insert_emp(emp1)
 insert_emp(emp2)
 
-emps = get_emps_by_name('Doe')
+"""
+You can do crud operations like
 
-print(emps)
+update = update_fields(emp2, 'akash@sky.com', 'I dont really hate humans')
+remove = remove_emp(emp2)
+"""
+
+print(show_all())
 
 conn.close()

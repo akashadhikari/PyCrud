@@ -22,6 +22,11 @@ def show_all():
     return c.fetchall()
 
 
+"""
+Testing the number of entries on the database.
+"""
+
+
 class TestNumber(unittest.TestCase):
 
     def test_number_of_entries(self):
