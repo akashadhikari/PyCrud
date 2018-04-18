@@ -22,9 +22,10 @@ conn = sqlite3.connect(':memory:')  # NOTE: sqlite_YOAGQHYR.db contains fake dat
 
 c = conn.cursor()  # cursor object to fetch results
 
-# We know what we are doing here, right? :D
+# We know what we are doing here, right? :D id INTEGER PRIMARY KEY AUTOINCREMENT,
 
 c.execute("""CREATE TABLE employees (
+             id integer PRIMARY KEY AUTOINCREMENT,
              first_name text(100), 
              last_name text(100),
              email decimal unique,
@@ -43,9 +44,10 @@ c.execute("""CREATE TABLE employees (
 # The 'C' in CRUD
 def insert_emp(emp):
     with conn:
-        c.execute("INSERT INTO employees VALUES (:first_name, :last_name, :email, :phone_number, :text, :date, "
+        c.execute("INSERT INTO employees VALUES (:id, :first_name, :last_name, :email, :phone_number, :text, :date, "
                   ":boolean, :address, :url,:image_url) ",
-              {'first_name': emp.first_name,
+              {'id': emp.id,
+               'first_name': emp.first_name,
                'last_name': emp.last_name,
                'email': emp.email,
                'phone_number': emp.phone_number,
@@ -94,10 +96,10 @@ print(get_emps_by_name('Doe'))
 """
 
 # Testing it on arbitrary data
-emp1 = Aayulogic('John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
+emp1 = Aayulogic(1,'John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
                  'www.fb.com/emp1', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
 insert_emp(emp1)
-emp2 = Aayulogic('Ram', 'Doe', 'fake@news.com', '999999999', 'I hate humans.', '1996/12/3', 0, 'Wherenot',
+emp2 = Aayulogic(2, 'Ram', 'Doe', 'fake@news.com', '999999999', 'I hate humans.', '1996/12/3', 0, 'Wherenot',
                  'www.fb.com/emp2', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
 insert_emp(emp2)
 
@@ -129,8 +131,6 @@ def insertion_sort(alist):
         # set the changed index value to current
         alist[index] = current_value
 
-
-# alist = [5, 2, 4, 6, 1, 3]
 
 alist = list(show_all())
 
