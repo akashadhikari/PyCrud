@@ -27,7 +27,7 @@ class DbConnect:
 
     c = conn.cursor()  # cursor object to fetch results
 
-    # We know what we are doing here, right? :D id INTEGER PRIMARY KEY AUTOINCREMENT,
+    # We know what we are doing here, right? :D
 
     c.execute("""CREATE TABLE employees (
                  id integer PRIMARY KEY AUTOINCREMENT,
@@ -50,7 +50,7 @@ class DbConnect:
 class CrudOperation:
 
     # The 'C' in CRUD
-    def insert_emp(emp):
+    def create(emp):
         with DbConnect.conn:
             DbConnect.c.execute(
                 "INSERT INTO employees VALUES (:id, :first_name, :last_name, :email, :phone_number, :text, :date, "
@@ -70,22 +70,22 @@ class CrudOperation:
 
     # The 'R' in CRUD
     @staticmethod
-    def show_all():
+    def read():
         DbConnect.c.execute("SELECT * FROM employees")
         return DbConnect.c.fetchall()
 
     # The 'U' in CRUD - Needs more modification
-    def update_fields(emp, email, text):
+    def update(emp, email, text):
         with DbConnect.conn:
             DbConnect.c.execute("""UPDATE employees SET email=:email, text=:text
                       WHERE first_name=:first_name AND last_name=:last_name""",
                       {'first_name': emp.first_name, 'last_name': emp.last_name, 'email': email, 'text': text})
-            return c.fetchall()
+            return DbConnect.c.fetchall()
 
     # I want the user to UPDATE only the required fields.
 
     # The 'D' in CRUD
-    def remove_emp(emp):
+    def delete(emp):
         with DbConnect.conn:
             DbConnect.c.execute("DELETE from employees WHERE first_name=:first_name AND last_name=:last_name",
                       {'first_name': emp.first_name, 'last_name': emp.last_name})
@@ -132,21 +132,21 @@ class Sort:
 # Testing it on arbitrary data
 emp1 = Aayulogic(1,'John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
                  'www.fb.com/emp1', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
-CrudOperation.insert_emp(emp1)
+CrudOperation.create(emp1)
 emp2 = Aayulogic(2, 'Ram', 'Doe', 'fake@news.com', '999999999', 'I hate humans.', '1996/12/3', 0, 'Wherenot',
                  'www.fb.com/emp2', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
-CrudOperation.insert_emp(emp2)
+CrudOperation.create(emp2)
 
 """
 You can do crud operations like
 
-update = CrudOperation.update_fields(emp2, 'akash@sky.com', 'I dont really hate humans')
-remove = CrudOperation.remove_emp(emp2)
+update = CrudOperation.update(emp2, 'akash@sky.com', 'I dont really hate humans')
+remove = CrudOperation.delete(emp2)
 """
 
-print(CrudOperation.show_all())
+print(CrudOperation.read())
 
-a_list = list(CrudOperation.show_all())
+a_list = list(CrudOperation.read())
 
 Sort.insertion_sort(a_list)
 
