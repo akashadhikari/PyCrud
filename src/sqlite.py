@@ -23,25 +23,27 @@ image_url => Display Image URL
 
 class DbConnect:
 
-    conn = sqlite3.connect(':memory:')  # NOTE: sqlite_CMEESXNF.db contains fake data | postgresql_kzemssmd
+    conn = sqlite3.connect('sqlite_CMEESXNF.db')  # NOTE: :memory: , sqlite_CMEESXNF.db or postgresql_kzemssmd
 
     c = conn.cursor()  # cursor object to fetch results
 
-    # We know what we are doing here, right? :D
-
-    c.execute("""CREATE TABLE custom (
-                 id integer PRIMARY KEY AUTOINCREMENT,
-                 first_name text(100),
-                 last_name text(100),
-                 email decimal unique,
-                 phone_number varchar(30),
-                 text text(255),
-                 date varchar(20),
-                 boolean text(10),
-                 address text,
-                 url varchar,
-                 image_url blob
-                 )""")
+    """
+    Use this piece of code only if we need to test it on in-memory database
+    ========================================================================
+    """
+    # c.execute("""CREATE TABLE custom (
+    #          id integer PRIMARY KEY AUTOINCREMENT,
+    #          first_name text(100),
+    #          last_name text(100),
+    #          email decimal unique,
+    #          phone_number varchar(30),
+    #          text text(255),
+    #          date varchar(20),
+    #          boolean text(10),
+    #          address text,
+    #          url varchar,
+    #          image_url blob
+    #          )""")
 
 
 # Some custom CRUD functions using native SQLite commands
@@ -126,6 +128,7 @@ class Sort:
     # What if I get a better search algorithm? I'll simply bind it over here.
 
     def another_better_search_algorithm(a_list):
+        # How about implementing Count sort or something like that?
         pass
 
 
@@ -144,19 +147,19 @@ boolean_emp = input("Enter Sex (M/F): ")
 address_emp = input("Enter Address: ")
 url_emp = input("Enter Social Media URL: ")
 image_url_emp = input("Enter Image URL: ")
-emp1 = Aayulogic(id_emp, first_name_emp, last_name_emp, email_emp, phone_number_emp, text_emp, date_emp, boolean_emp,
+new_emp = Aayulogic(id_emp, first_name_emp, last_name_emp, email_emp, phone_number_emp, text_emp, date_emp, boolean_emp,
                  address_emp, url_emp, image_url_emp)
 
-CrudOperation.create(emp1)
+CrudOperation.create(new_emp)
 
 
 """
 Statically, we can also do
 ===================================
 
-emp1 = Aayulogic(1,'John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
-                 'www.fb.com/emp1', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
-CrudOperation.create(emp1)
+new_emp = Aayulogic(1,'John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
+                 'www.fb.com/new_emp', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
+CrudOperation.create(new_emp)
 emp2 = Aayulogic(2, 'Ram', 'Doe', 'fake@news.com', '999999999', 'I hate humans.', '1996/12/3', 0, 'Wherenot',
                  'www.fb.com/emp2', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
 CrudOperation.create(emp2)
@@ -184,11 +187,12 @@ a_list = []
 for each in temp:
     a_list.append(each[0])
 
+# print(a_list)
 
 Sort.insertion_sort(a_list)
 
 print("***********After Sorting***********")
 
-print(a_list)  # Sorts only according
+print(a_list)
 
 DbConnect.conn.close()
