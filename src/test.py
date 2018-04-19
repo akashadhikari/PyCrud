@@ -1,5 +1,5 @@
 """
-The following code is for testing the fake data which is stored on custom database 'sqlite_YOAGQHYR.db'
+The following code is for testing the fake data which is stored on custom database 'sqlite_CMEESXNF.db'
 Here, we have generated a database with relevant fields with up to 200 entries.
 Below, we have defined a custom function to show all the data stored in the table.
 
@@ -12,7 +12,7 @@ import sqlite3
 import unittest
 
 
-conn = sqlite3.connect('sqlite_YOAGQHYR.db')
+conn = sqlite3.connect('sqlite_CMEESXNF.db')
 
 c = conn.cursor()
 

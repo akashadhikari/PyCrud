@@ -23,15 +23,15 @@ image_url => Display Image URL
 
 class DbConnect:
 
-    conn = sqlite3.connect(':memory:')  # NOTE: sqlite_YOAGQHYR.db contains fake data with 200 entries
+    conn = sqlite3.connect(':memory:')  # NOTE: sqlite_CMEESXNF.db contains fake data with 200 entries
 
     c = conn.cursor()  # cursor object to fetch results
 
     # We know what we are doing here, right? :D
 
-    c.execute("""CREATE TABLE employees (
+    c.execute("""CREATE TABLE custom (
                  id integer PRIMARY KEY AUTOINCREMENT,
-                 first_name text(100), 
+                 first_name text(100),
                  last_name text(100),
                  email decimal unique,
                  phone_number varchar(30),
@@ -53,7 +53,7 @@ class CrudOperation:
     def create(emp):
         with DbConnect.conn:
             DbConnect.c.execute(
-                "INSERT INTO employees VALUES (:id, :first_name, :last_name, :email, :phone_number, :text, :date, "
+                "INSERT INTO custom VALUES (:id, :first_name, :last_name, :email, :phone_number, :text, :date, "
                 ":boolean, :address, :url,:image_url) ",
                 {'id': emp.id,
                  'first_name': emp.first_name,
@@ -71,13 +71,13 @@ class CrudOperation:
     # The 'R' in CRUD
     @staticmethod
     def read():
-        DbConnect.c.execute("SELECT * FROM employees")
+        DbConnect.c.execute("SELECT * FROM custom")
         return DbConnect.c.fetchall()
 
     # The 'U' in CRUD - Needs more modification
     def update(emp, email, text):
         with DbConnect.conn:
-            DbConnect.c.execute("""UPDATE employees SET email=:email, text=:text
+            DbConnect.c.execute("""UPDATE custom SET email=:email, text=:text
                       WHERE first_name=:first_name AND last_name=:last_name""",
                       {'first_name': emp.first_name, 'last_name': emp.last_name, 'email': email, 'text': text})
             return DbConnect.c.fetchall()
@@ -87,7 +87,7 @@ class CrudOperation:
     # The 'D' in CRUD
     def delete(emp):
         with DbConnect.conn:
-            DbConnect.c.execute("DELETE from employees WHERE first_name=:first_name AND last_name=:last_name",
+            DbConnect.c.execute("DELETE from custom WHERE first_name=:first_name AND last_name=:last_name",
                       {'first_name': emp.first_name, 'last_name': emp.last_name})
             return DbConnect.c.fetchall()
 
@@ -96,7 +96,7 @@ class CrudOperation:
     Some other functions besides CRUD can be defined in such ways:
 
     def get_emps_by_name(last_name):
-        c.execute("SELECT * FROM employees WHERE last_name=:last_name", {'last_name': last_name})
+        c.execute("SELECT * FROM custom WHERE last_name=:last_name", {'last_name': last_name})
         return c.fetchall()
 
     print(get_emps_by_name('Doe'))
