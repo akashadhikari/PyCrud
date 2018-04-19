@@ -23,7 +23,7 @@ image_url => Display Image URL
 
 class DbConnect:
 
-    conn = sqlite3.connect(':memory:')  # NOTE: sqlite_CMEESXNF.db contains fake data with 200 entries
+    conn = sqlite3.connect(':memory:')  # NOTE: sqlite_CMEESXNF.db contains fake data | postgresql_kzemssmd
 
     c = conn.cursor()  # cursor object to fetch results
 
@@ -129,7 +129,31 @@ class Sort:
         pass
 
 
-# Testing it on arbitrary data
+# Prompt user to insert a record
+
+print("::::::::::::::WELCOME TO CRAPPY DATABASE SOFTWARE::::::::::::::")
+
+id_emp = input("Enter your ID: ")
+first_name_emp = input("Enter First Name: ")
+last_name_emp = input("Enter Last Name: ")
+email_emp = input("Enter Email: ")
+phone_number_emp = input("Enter Phone Number: ")
+text_emp = input("Enter Bio: ")
+date_emp = input("Enter Birth Date: ")
+boolean_emp = input("Enter Sex (M/F): ")
+address_emp = input("Enter Address: ")
+url_emp = input("Enter Social Media URL: ")
+image_url_emp = input("Enter Image URL: ")
+emp1 = Aayulogic(id_emp, first_name_emp, last_name_emp, email_emp, phone_number_emp, text_emp, date_emp, boolean_emp,
+                 address_emp, url_emp, image_url_emp)
+
+CrudOperation.create(emp1)
+
+
+"""
+Statically, we can also do
+===================================
+
 emp1 = Aayulogic(1,'John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
                  'www.fb.com/emp1', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
 CrudOperation.create(emp1)
@@ -137,21 +161,34 @@ emp2 = Aayulogic(2, 'Ram', 'Doe', 'fake@news.com', '999999999', 'I hate humans.'
                  'www.fb.com/emp2', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
 CrudOperation.create(emp2)
 
-"""
 You can do crud operations like
+===================================
 
 update = CrudOperation.update(emp2, 'akash@sky.com', 'I dont really hate humans')
 remove = CrudOperation.delete(emp2)
 """
 
-print(CrudOperation.read())
+# print(CrudOperation.read())
 
-a_list = list(CrudOperation.read())
+temp = []
+
+# Tuple to list conversion for convenience
+for tup in CrudOperation.read():
+    temp.append(list(tup))
+print(temp)
+
+
+a_list = []
+
+# Appending the unordered list
+for each in temp:
+    a_list.append(each[0])
+
 
 Sort.insertion_sort(a_list)
 
 print("***********After Sorting***********")
 
-print(a_list)
+print(a_list)  # Sorts only according
 
 DbConnect.conn.close()
