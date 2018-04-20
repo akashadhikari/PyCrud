@@ -1,82 +1,65 @@
 import psycopg2
-import pprint
-
 try:
-    from .models import Aayulogic
+    from .sqlite import Sort
 except Exception:
-    from models import Aayulogic
+    from sqlite import Sort
+
+conn = psycopg2.connect("dbname=postgresql_kzemssmd user=postgres password=postgres host=localhost")
+
+c = conn.cursor()
+
+id = input("Enter your ID: ")
+first_name = input("Enter First Name: ")
+last_name = input("Enter Last Name: ")
+email = input("Enter Email: ")
+phone_number = input("Enter Phone Number: ")
+text = input("Enter Bio: ")
+date = input("Enter Birth Date: ")
+boolean = input("Enter Sex (M/F): ")
+address = input("Enter Address: ")
+url = input("Enter Social Media URL: ")
+image_url = input("Enter Image URL: ")
+
+# Create
+c.execute("INSERT INTO custom (id, first_name, last_name, email, phone_number, text, date, "
+                "boolean, address, url, image_url) VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s,%s, %s)",
+            (id, first_name, last_name, email, phone_number, text, date, boolean,
+                 address, url, image_url))
+# Delete
+# c.execute("DELETE FROM custom WHERE id=5525245")
+
+# Update
+upd_id = input("Enter your ID to update: ")
+upd_email = input("Enter Updated Email: ")
+c.execute("UPDATE custom SET email=%s WHERE id=%s", (upd_email, upd_id))
+
+# Read
+c.execute("SELECT id, first_name, email from custom")
+
+rows = c.fetchall()
+print(rows)
+
+# Sorting
+temp = []
+
+# Tuple to list conversion for convenience
+for tup in rows:
+    temp.append(list(tup))
+print(temp)
 
 
-class DbPostgresConnect:
+a_list = []
 
-    conn_string = "host='localhost' dbname='postgresql_kzemssmd' user='postgres' password='postgres'"
-    # print the connection string we will use to connect
-    print("Connecting to database\n	->%s" % (conn_string))
+# Appending the unordered list
+for each in temp:
+    a_list.append(each[0])
 
-    # get a connection, if a connect cannot be made an exception will be raised here
-    conn = psycopg2.connect(conn_string)
+Sort.insertion_sort(a_list)
 
-    # conn.cursor will return a cursor object, you can use this cursor to perform queries
-    c = conn.cursor()
+print("***********After Sorting***********")
 
-    # execute our Query
-    c.execute("SELECT * FROM custom")
+# print(a_list)
 
-    # retrieve the records from the database
-    records = c.fetchall()
-
-    # print out the records using pretty print
-    # note that the NAMES of the columns are not shown, instead just indexes.
-    # for most people this isn't very useful so we'll show you how to return
-    # columns as a dictionary (hash) in the next example.
-    pprint.pprint(records)
-
-
-class CrudPostgres:
-
-    # The 'C' in CRUD
-    def create(emp):
-        with DbPostgresConnect.conn:
-            DbPostgresConnect.c.execute(
-                "INSERT INTO custom VALUES (:id, :first_name, :last_name, :email, :phone_number, :text, :date, "
-                ":boolean, :address, :url,:image_url) ",
-                {'id': emp.id,
-                 'first_name': emp.first_name,
-                 'last_name': emp.last_name,
-                 'email': emp.email,
-                 'phone_number': emp.phone_number,
-                 'text': emp.text,
-                 'date': emp.date,
-                 'boolean': emp.boolean,
-                 'address': emp.address,
-                 'url': emp.url,
-                 'image_url': emp.image_url
-                 })
-
-    # The 'R' in CRUD
-    @staticmethod
-    def read():
-        DbPostgresConnect.c.execute("SELECT * FROM custom")
-        return DbPostgresConnect.c.fetchall()
-
-    # The 'U' in CRUD - Needs more modification
-    def update(emp, email, text):
-        with DbPostgresConnect.conn:
-            DbPostgresConnect.c.execute("""UPDATE custom SET email=:email, text=:text
-                      WHERE first_name=:first_name AND last_name=:last_name""",
-                      {'first_name': emp.first_name, 'last_name': emp.last_name, 'email': email, 'text': text})
-            return DbPostgresConnect.c.fetchall()
-
-    # I want the user to UPDATE only the required fields.
-
-    # The 'D' in CRUD
-    def delete(emp):
-        with DbPostgresConnect.conn:
-            DbPostgresConnect.c.execute("DELETE from custom WHERE first_name=:first_name AND last_name=:last_name",
-                      {'first_name': emp.first_name, 'last_name': emp.last_name})
-            return DbPostgresConnect.c.fetchall()
-
-
-# new_emp = Aayulogic(1,'John', 'Doe', 'test@fake.com', '984585485', 'Hello All!', '1996/2/3', 1, 'Biratnagar',
-#                  'www.fb.com/new_emp', 'https://www.python.org/static/community_logos/python-logo-master-v3-TM.png')
-# CrudPostgres.create(new_emp)
+conn.commit()
+c.close()
+conn.close()
