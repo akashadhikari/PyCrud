@@ -1,4 +1,3 @@
-from __future__ import print_function
 import psycopg2
 
 
@@ -35,6 +34,12 @@ class CRUDPostgres:
         id_read = input("Enter the ID to view its information")
         PostgresConnect.c.execute("SELECT id, first_name, last_name, email from custom WHERE id=%s",
                                   (id_read,))
+        rows = PostgresConnect.c.fetchall()
+        print(rows)
+
+    def read_from_anum():
+        PostgresConnect.c.execute("SELECT id, first_name, last_name, email from custom WHERE id=%s",
+                                  (anum,))
         rows = PostgresConnect.c.fetchall()
         print(rows)
 
@@ -84,6 +89,9 @@ class Sort:
         pass
 
 
+CRUDPostgres.read_from_id()
+
+
 PostgresConnect.c.execute("SELECT * from custom")
 rows = PostgresConnect.c.fetchall()
 
@@ -98,26 +106,25 @@ for l in li:
 array = []
 for each in temp:
     array.append(each[0])
-print(type(array))
 
-Sort.insertion_sort(array) # Now, we have a sorted array of table IDs using insertion sort
+Sort.insertion_sort(array)  # Now, we have a sorted array of table IDs using insertion sort
 
 # By now, we have done lots of crazy stuff here. Checkout print(rows), print(li[0:5]), print(temp) or print(array)
 
-anum = 23323232   # number to search for
+anum = int(input("Enter ID to search "))
 
 
 #  Search for number in array
-def binary_search(number, array, lo, hi):
+def binary_search(number, array, low, high):
 
-    if hi < lo: return -1       # no more numbers
-    mid = (lo + hi) // 2        # midpoint in array
+    if high < low: return -1       # no more numbers
+    mid = (low + high) // 2        # midpoint in array
     if number == array[mid]:
-        return mid              # number found here
+        return mid                 # number found here
     elif number < array[mid]:
-        return binary_search(number, array, lo, mid - 1)     # try left of here
+        return binary_search(number, array, low, mid - 1)     # try left of here
     else:
-        return binary_search(number, array, mid + 1, hi)     # try above here
+        return binary_search(number, array, mid + 1, high)     # try above here
 
 
 def my_search(anum, array):
@@ -129,6 +136,7 @@ if pos < 0:
     print("not found")
 else:
     print("found at position", pos)
+    CRUDPostgres.read_from_anum()
 
 PostgresConnect.conn.commit()
 PostgresConnect.c.close()
