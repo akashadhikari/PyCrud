@@ -57,27 +57,6 @@ class CRUDPostgres:
         PostgresConnect.c.execute("DELETE FROM custom WHERE id=%s", (del_id,))
 
 
-PostgresConnect.c.execute("SELECT * from custom")
-rows = PostgresConnect.c.fetchall()
-#print(rows)
-
-li = []
-for row in rows:
-    li.append(row)
-#print(li[0:5])
-
-temp = []
-for l in li:
-    x = list(l)
-    temp.append(x)
-#print(temp)
-
-array = []
-for each in temp:
-    array.append(each[0])
-print(type(array))
-#print(array)
-
 class Sort:
 
     def insertion_sort(array):
@@ -104,35 +83,52 @@ class Sort:
         # How about implementing Count sort or something like that?
         pass
 
-Sort.insertion_sort(array)
-print(array)
 
-anum = 23323232                   # number to search for
-#array = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610]  # get some random numbers
-print(anum, array)          # show us what you've got
+PostgresConnect.c.execute("SELECT * from custom")
+rows = PostgresConnect.c.fetchall()
 
-#    Search for number in array
+# Some list manipulation to generate
+li = []
+for row in rows:
+    li.append(row)
+temp = []
+for l in li:
+    x = list(l)
+    temp.append(x)
+array = []
+for each in temp:
+    array.append(each[0])
+print(type(array))
+
+Sort.insertion_sort(array) # Now, we have a sorted array of table IDs using insertion sort
+
+# By now, we have done lots of crazy stuff here. Checkout print(rows), print(li[0:5]), print(temp) or print(array)
+
+anum = 23323232   # number to search for
+
+
+#  Search for number in array
 def binary_search(number, array, lo, hi):
 
     if hi < lo: return -1       # no more numbers
     mid = (lo + hi) // 2        # midpoint in array
     if number == array[mid]:
-        return mid                  # number found here
+        return mid              # number found here
     elif number < array[mid]:
         return binary_search(number, array, lo, mid - 1)     # try left of here
     else:
         return binary_search(number, array, mid + 1, hi)     # try above here
 
-def my_search(anum, array):     # convenience interface to binary_search()
+
+def my_search(anum, array):
     return binary_search(anum, array, 0, len(array) - 1)
+
 
 pos = my_search(anum, array)
 if pos < 0:
     print("not found")
 else:
     print("found at position", pos)
-
-
 
 PostgresConnect.conn.commit()
 PostgresConnect.c.close()
