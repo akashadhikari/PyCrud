@@ -185,7 +185,7 @@ a_list = []
 
 # Appending the unordered list
 for each in temp:
-    a_list.append(each[0])
+    a_list.append(each[1])  # Sorts id, name etc according to the array index position
 
 # print(a_list)
 
