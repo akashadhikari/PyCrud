@@ -60,6 +60,7 @@ class CRUDPostgres:
         print("Delete a record")
         del_id = input("Enter the ID to be deleted")
         PostgresConnect.c.execute("DELETE FROM custom WHERE id=%s", (del_id,))
+        print("Successfully deleted")
 
 
 class Sort:
