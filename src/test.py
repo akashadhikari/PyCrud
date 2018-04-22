@@ -15,6 +15,9 @@ import psycopg2
 
 
 class ConnectTest:
+    """
+    Setting up test connection.
+    """
     conn = psycopg2.connect("dbname=postgresql_kzemssmd user=postgres password=postgres host=localhost")
     c = conn.cursor()
 
@@ -24,12 +27,10 @@ class ConnectTest:
         return ConnectTest.c.fetchall()
 
 
-"""
-Testing the number of entries on the database.
-"""
-
-
 class TestNumber(unittest.TestCase):
+    """
+    Testing the number of entries on the database.
+    """
 
     def test_number_of_entries(self):
         self.assertGreaterEqual(len(ConnectTest.show_all()), 100000)
