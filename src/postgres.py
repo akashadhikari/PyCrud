@@ -37,14 +37,14 @@ class CRUDPostgres:
         print(rows)
 
 
-    def read_from_anum():
+    def read_from_id_to_search():
         PostgresConnect.c.execute("SELECT id, first_name, last_name, email from custom WHERE id=%s",
-                                  (anum,))
+                                  (id_to_search,))
         rows = PostgresConnect.c.fetchall()
         print(rows)
 
     def read_all():
-        PostgresConnect.c.execute("SELECT * from custom")
+        PostgresConnect.c.execute("SELECT COUNT(*) from custom")
         rows = PostgresConnect.c.fetchall()
         print(rows)
 
@@ -109,7 +109,7 @@ Sort.insertion_sort(array)  # Now, we have a sorted array of table IDs using ins
 # By now, we have done lots of crazy stuff here. Checkout print(rows), print(li[0:5]), print(temp) or print(array)
 
 
-anum = int(input("Welcome! Enter ID to search "))
+id_to_search = int(input("Welcome! Enter ID to search "))
 
 
 #  Search for number in array
@@ -125,13 +125,13 @@ def binary_search(number, array, low, high):
         return binary_search(number, array, mid + 1, high)     # try above here
 
 
-def my_search(anum, array):
-    return binary_search(anum, array, 0, len(array) - 1)
+def my_search(id_to_search, array):
+    return binary_search(id_to_search, array, 0, len(array) - 1)
 
 
-pos = my_search(anum, array)
-if pos < 0:
+position = my_search(id_to_search, array)
+if position < 0:
     print("not found")
 else:
-    print("found at position", pos)
-    CRUDPostgres.read_from_anum()
+    print("found at position", position)
+    CRUDPostgres.read_from_id_to_search()

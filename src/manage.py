@@ -11,6 +11,7 @@ def run():
     print("2. Read from ID ")
     print("3. Update Info ")
     print("4: Delete record ")
+    print("5: Count total records so far")
 
     x = int(input("Enter a valid choice "))
 
@@ -22,6 +23,8 @@ def run():
         CRUDPostgres.update()
     elif x == 4:
         CRUDPostgres.delete()
+    elif x == 5:
+        CRUDPostgres.read_all()
     else:
         print("Not a valid choice. Terminating program...")
 
