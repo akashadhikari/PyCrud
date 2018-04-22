@@ -14,13 +14,14 @@ import unittest
 import psycopg2
 
 
-conn = psycopg2.connect("dbname=postgresql_kzemssmd user=postgres password=postgres host=localhost")
-c = conn.cursor()
+class ConnectTest:
+    conn = psycopg2.connect("dbname=postgresql_kzemssmd user=postgres password=postgres host=localhost")
+    c = conn.cursor()
 
-
-def show_all():
-    c.execute("SELECT * FROM custom")
-    return c.fetchall()
+    @staticmethod
+    def show_all():
+        ConnectTest.c.execute("SELECT * FROM custom")
+        return ConnectTest.c.fetchall()
 
 
 """
@@ -31,10 +32,10 @@ Testing the number of entries on the database.
 class TestNumber(unittest.TestCase):
 
     def test_number_of_entries(self):
-        self.assertGreaterEqual(len(show_all()), 100000)
+        self.assertGreaterEqual(len(ConnectTest.show_all()), 100000)
 
 
 if __name__ == '__main__':
     unittest.main()
 
-conn.close()
+ConnectTest.conn.close()
