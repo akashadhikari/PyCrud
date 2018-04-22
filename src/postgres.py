@@ -9,7 +9,6 @@ class PostgresConnect:
 class CRUDPostgres:
 
     def create():
-        print("::::::::::::::WELCOME TO CRAPPY DATABASE SOFTWARE::::::::::::::")
         id = input("Enter your ID: ")
         first_name = input("Enter First Name: ")
         last_name = input("Enter Last Name: ")
@@ -89,9 +88,6 @@ class Sort:
         pass
 
 
-CRUDPostgres.read_from_id()
-
-
 PostgresConnect.c.execute("SELECT * from custom")
 rows = PostgresConnect.c.fetchall()
 
@@ -132,11 +128,29 @@ def my_search(anum, array):
 
 
 pos = my_search(anum, array)
-if pos < 0:
-    print("not found")
-else:
-    print("found at position", pos)
-    CRUDPostgres.read_from_anum()
+
+
+def selection():
+    if pos < 0:
+        print("not found")
+    else:
+        print("found at position", pos)
+        CRUDPostgres.read_from_anum()
+
+
+print("::::::::::::::WELCOME TO CRAPPY DATABASE SOFTWARE::::::::::::::")
+print("1. Create Table")
+print("2. Read from ID")
+print("3. Search ID position")
+
+x = int(input("Enter a valid choice"))
+if x == 1:
+    CRUDPostgres.create()
+elif x == 2:
+    CRUDPostgres.read_from_id()
+elif x == 3:
+    selection()
+
 
 PostgresConnect.conn.commit()
 PostgresConnect.c.close()
