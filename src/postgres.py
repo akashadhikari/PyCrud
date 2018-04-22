@@ -132,7 +132,8 @@ pos = my_search(anum, array)
 
 
 class Selection:
-    def selection():
+    @staticmethod
+    def selection(self):
         if pos < 0:
             print("not found")
         else:
