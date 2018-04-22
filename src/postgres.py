@@ -30,7 +30,7 @@ class CRUDPostgres:
 
     def read_from_id():
         # Read
-        id_read = input("Enter the ID to view its information")
+        id_read = input("Enter the ID to view its information ")
         PostgresConnect.c.execute("SELECT id, first_name, last_name, email from custom WHERE id=%s",
                                   (id_read,))
         rows = PostgresConnect.c.fetchall()
@@ -108,7 +108,7 @@ Sort.insertion_sort(array)  # Now, we have a sorted array of table IDs using ins
 # By now, we have done lots of crazy stuff here. Checkout print(rows), print(li[0:5]), print(temp) or print(array)
 
 
-anum = int(input("Enter ID to search "))
+anum = int(input("Welcome! Try our search first. Enter ID to search. "))
 
 
 #  Search for number in array
@@ -131,35 +131,10 @@ def my_search(anum, array):
 pos = my_search(anum, array)
 
 
-def selection():
-    if pos < 0:
-        print("not found")
-    else:
-        print("found at position", pos)
-        CRUDPostgres.read_from_anum()
-
-
-print("::::::::::::::WELCOME TO CRAPPY DATABASE SOFTWARE::::::::::::::")
-print("1. Create new record ")
-print("2. Read from ID ")
-print("3. Update Info ")
-print("4: Delete record ")
-print("5. Search ID position ")
-
-x = int(input("Enter a valid choice "))
-
-if x == 1:
-    CRUDPostgres.create()
-elif x == 2:
-    CRUDPostgres.read_from_id()
-elif x == 3:
-    CRUDPostgres.update()
-elif x == 4:
-    CRUDPostgres.delete()
-elif x == 5:
-    selection()
-
-
-PostgresConnect.conn.commit()
-PostgresConnect.c.close()
-PostgresConnect.conn.close()
+class Selection:
+    def selection():
+        if pos < 0:
+            print("not found")
+        else:
+            print("found at position", pos)
+            CRUDPostgres.read_from_anum()
