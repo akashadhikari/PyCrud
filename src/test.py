@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 The following code is for testing the fake data which is stored on custom database 'postgresql_kzemssmd'
 Here, we have generated a database with relevant fields with up to 100000 entries.

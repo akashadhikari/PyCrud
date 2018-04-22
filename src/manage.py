@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 try:
     from .postgres import CRUDPostgres, PostgresConnect
 except Exception:
