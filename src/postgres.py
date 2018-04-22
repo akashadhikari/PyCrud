@@ -107,6 +107,7 @@ Sort.insertion_sort(array)  # Now, we have a sorted array of table IDs using ins
 
 # By now, we have done lots of crazy stuff here. Checkout print(rows), print(li[0:5]), print(temp) or print(array)
 
+
 anum = int(input("Enter ID to search "))
 
 
@@ -139,16 +140,23 @@ def selection():
 
 
 print("::::::::::::::WELCOME TO CRAPPY DATABASE SOFTWARE::::::::::::::")
-print("1. Create Table")
-print("2. Read from ID")
-print("3. Search ID position")
+print("1. Create new record ")
+print("2. Read from ID ")
+print("3. Update Info ")
+print("4: Delete record ")
+print("5. Search ID position ")
 
-x = int(input("Enter a valid choice"))
+x = int(input("Enter a valid choice "))
+
 if x == 1:
     CRUDPostgres.create()
 elif x == 2:
     CRUDPostgres.read_from_id()
 elif x == 3:
+    CRUDPostgres.update()
+elif x == 4:
+    CRUDPostgres.delete()
+elif x == 5:
     selection()
 
 
