@@ -36,6 +36,7 @@ class CRUDPostgres:
         rows = PostgresConnect.c.fetchall()
         print(rows)
 
+
     def read_from_anum():
         PostgresConnect.c.execute("SELECT id, first_name, last_name, email from custom WHERE id=%s",
                                   (anum,))
@@ -108,7 +109,7 @@ Sort.insertion_sort(array)  # Now, we have a sorted array of table IDs using ins
 # By now, we have done lots of crazy stuff here. Checkout print(rows), print(li[0:5]), print(temp) or print(array)
 
 
-anum = int(input("Welcome! Try our search first. Enter ID to search. "))
+anum = int(input("Welcome! Enter ID to search "))
 
 
 #  Search for number in array
@@ -129,13 +130,11 @@ def my_search(anum, array):
 
 
 pos = my_search(anum, array)
+if pos < 0:
+    print("not found")
+else:
+    print("found at position", pos)
+    CRUDPostgres.read_from_anum()
 
 
-class Selection:
-    @staticmethod
-    def selection(self):
-        if pos < 0:
-            print("not found")
-        else:
-            print("found at position", pos)
-            CRUDPostgres.read_from_anum()
+

@@ -1,7 +1,7 @@
 try:
-    from .postgres import CRUDPostgres, Selection, PostgresConnect
+    from .postgres import CRUDPostgres, PostgresConnect, anum
 except Exception:
-    from postgres import CRUDPostgres, Selection, PostgresConnect
+    from postgres import CRUDPostgres, PostgresConnect, anum
 
 
 def run():
@@ -10,7 +10,6 @@ def run():
     print("2. Read from ID ")
     print("3. Update Info ")
     print("4: Delete record ")
-    print("5. Search ID position ")
 
     x = int(input("Enter a valid choice "))
 
@@ -22,8 +21,6 @@ def run():
         CRUDPostgres.update()
     elif x == 4:
         CRUDPostgres.delete()
-    elif x == 5:
-        Selection.selection()
     else:
         print("Not a valid choice. Terminating program...")
 
