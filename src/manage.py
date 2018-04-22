@@ -1,7 +1,7 @@
 try:
-    from .postgres import CRUDPostgres, PostgresConnect, anum
+    from .postgres import CRUDPostgres, PostgresConnect
 except Exception:
-    from postgres import CRUDPostgres, PostgresConnect, anum
+    from postgres import CRUDPostgres, PostgresConnect
 
 
 def run():

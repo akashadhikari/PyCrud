@@ -135,6 +135,3 @@ if pos < 0:
 else:
     print("found at position", pos)
     CRUDPostgres.read_from_anum()
-
-
-
